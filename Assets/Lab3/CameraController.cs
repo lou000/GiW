@@ -44,20 +44,28 @@ public class CameraController : MonoBehaviour
         {
             rb = false;
             targetCon.GetComponent<RobotController>().controlled = true;
+            targetCon.tag = "Player";
         }
         else if(currentTarget.TryGetComponent<Rigidbody>(out targetRB))
         {
             rb = true;
             targetRB.GetComponent<RobotRigidBodyController>().controlled = true;
+            targetRB.tag = "Player";
         }
     }
 
     void DropControl()
     {
         if(rb)
+        {
             targetRB.GetComponent<RobotRigidBodyController>().controlled = false;
+            targetRB.tag = "Untagged";
+        }
         else
+        {
             targetCon.GetComponent<RobotController>().controlled = false;
+            targetCon.tag = "Untagged";
+        }
     }
 
     // Update is called once per frame

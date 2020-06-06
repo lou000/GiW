@@ -44,10 +44,11 @@ public class RobotController : MonoBehaviour
             //Get inputs
             if(Input.GetButtonDown("Fire1"))
             {   
-                if(Cursor.lockState != CursorLockMode.Locked)
-                    Cursor.lockState = CursorLockMode.Locked;
-                else
-                    Cursor.lockState = CursorLockMode.None;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            if(Input.GetButtonDown("Cancel"))
+            {
+                Cursor.lockState = CursorLockMode.None;
             }
             if(rController.isGrounded)
             {

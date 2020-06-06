@@ -16,7 +16,7 @@ public class StupidFollower : MonoBehaviour
     public float visionAngle = 45f;
     [Range(0,360)]
     public float moveAngle = 5f;
-    public GameObject target;
+    public Collider target = null;
     Animator anim;
 
     private Rigidbody rController;
@@ -36,22 +36,33 @@ public class StupidFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        targetDir = target.transform.position - rCollider.transform.position;
-        angle = Vector3.Angle(targetDir, transform.forward);
+        if(target!=null)
+        {
+            targetDir = target.transform.position - rCollider.transform.position;
+            angle = Vector3.Angle(targetDir, transform.forward);
+        }
     }
 
     void OnDrawGizmos() 
     {
-        if(angle<visionAngle)
+        if(angle<visionAngle && target!=null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, target.transform.position);
         }
     }
+    private void OnTriggerEnter(Collider other) {
+        if(target == null && other.tag == "Player")
+            target = other;
+    }
+    private void OnTriggerExit(Collider other) {
+        if(target != null && other.tag == "Player")
+            target = null;
+    }
 
     void FixedUpdate()
     {
-        if(angle<visionAngle)
+        if(angle<visionAngle && target!=null)
         {
             targetDir.y = 0;
             float singleStep = rotationSpeed * Time.fixedDeltaTime;
